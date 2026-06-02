@@ -1,0 +1,117 @@
+:root {
+  --bg-primary: #030805;
+  --bg-secondary: #070f09;
+  --surface-01: #0d1a0f;
+  --surface-02: #111f14;
+  --green-core: #1aff6b;
+  --green-muted: #0d8c3c;
+  --green-dim: #0a4d22;
+  --green-glow: rgba(26, 255, 107, 0.15);
+  --white-pure: #ffffff;
+  --white-soft: #e8f5ec;
+  --grey-mid: #3a4a3d;
+  --grey-text: #8a9e8d;
+  --glass-bg: rgba(13, 26, 15, 0.6);
+  --glass-border: rgba(26, 255, 107, 0.12);
+  --font-display: var(--font-syne), sans-serif;
+  --font-body: var(--font-dm-sans), sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+  --radius-card: 16px;
+  --radius-pill: 100px;
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--white-soft);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--green-core);
+  color: var(--bg-primary);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--green-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-core);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .glass {
+    backdrop-filter: blur(24px) saturate(180%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-card);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #030805 0%, #071a0c 50%, #030805 100%);
+  }
+
+  .gradient-accent {
+    background: linear-gradient(90deg, #1aff6b 0%, #00d4aa 100%);
+  }
+
+  .radial-glow {
+    background: radial-gradient(
+      ellipse 60% 40% at 50% 0%,
+      rgba(26, 255, 107, 0.12) 0%,
+      transparent 70%
+    );
+  }
+
+  .heading-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-core);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
