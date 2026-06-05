@@ -26,7 +26,7 @@ export function WaveformVisualizer({
           <div
             key={i}
             className={`flex-1 rounded-full transition-colors duration-150 ${
-              filled ? "bg-green-core" : "bg-grey-mid/40"
+              filled ? "bg-olive-core" : "bg-beige-deep"
             } ${animated ? "waveform-bar" : ""}`}
             style={{
               height: `${h * 100}%`,

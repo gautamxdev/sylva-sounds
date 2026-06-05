@@ -22,7 +22,7 @@
 @keyframes waveform-bar {
   0%,
   100% {
-    transform: scaleY(0.3);
+    transform: scaleY(0.25);
   }
   50% {
     transform: scaleY(1);
@@ -43,11 +43,27 @@
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(26, 255, 107, 0.1);
+    box-shadow: 0 0 20px rgba(92, 107, 61, 0.12);
   }
   50% {
-    box-shadow: 0 0 40px rgba(26, 255, 107, 0.25);
+    box-shadow: 0 0 40px rgba(92, 107, 61, 0.28);
   }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
@@ -63,14 +79,42 @@
 }
 
 .waveform-bar {
-  animation: waveform-bar 1.2s ease-in-out infinite;
+  animation: waveform-bar 1.4s ease-in-out infinite;
+}
+
+@keyframes showreel-wave {
+  0%, 100% { height: 8px; opacity: 0.5; }
+  50% { height: 56px; opacity: 0.95; }
+}
+
+.showreel-wave-bar {
+  animation: showreel-wave 0.9s ease-in-out infinite;
+}
+
+@keyframes world-ribbon-drift {
+  0% { transform: translate(0, -50%); }
+  100% { transform: translate(-50%, -50%); }
+}
+
+.world-fallback-ribbon {
+  animation: world-ribbon-drift 24s linear infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 70s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-pulse-arrow,
   .animate-glow-pulse,
-  .waveform-bar {
+  .waveform-bar,
+  .showreel-wave-bar,
+  .world-fallback-ribbon {
     animation: none;
   }
 }

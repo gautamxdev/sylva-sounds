@@ -1,9 +1,10 @@
 import Link from "next/link";
 import clsx from "clsx";
 
-interface NeonButtonProps {
+interface ButtonProps {
   children: React.ReactNode;
   href?: string;
+  external?: boolean;
   onClick?: () => void;
   variant?: "primary" | "ghost" | "outline";
   className?: string;
@@ -13,23 +14,31 @@ interface NeonButtonProps {
 export function NeonButton({
   children,
   href,
+  external,
   onClick,
   variant = "primary",
   className,
   type = "button",
-}: NeonButtonProps) {
+}: ButtonProps) {
   const styles = clsx(
-    "inline-flex items-center justify-center gap-2 rounded-pill px-6 py-3 font-body text-sm font-medium transition-all duration-300 active:scale-[0.97]",
+    "inline-flex items-center justify-center gap-2 rounded-pill px-7 py-3.5 font-body text-sm font-semibold tracking-wide transition-all duration-300 active:scale-[0.98]",
     variant === "primary" &&
-      "border border-green-core bg-transparent text-green-core hover:bg-green-core hover:text-bg-primary",
+      "bg-olive-core text-surface-01 hover:bg-olive-dark shadow-sm hover:shadow-md",
     variant === "outline" &&
-      "border border-green-core/60 bg-transparent text-green-core hover:border-green-core hover:shadow-[0_0_20px_rgba(26,255,107,0.2)]",
+      "border-2 border-olive-core bg-transparent text-olive-dark hover:bg-olive-core hover:text-surface-01",
     variant === "ghost" &&
-      "border border-white-soft/30 bg-transparent text-white-soft hover:border-green-core hover:text-green-core",
+      "border border-beige-deep bg-transparent text-text-secondary hover:border-olive-muted hover:text-olive-dark",
     className
   );
 
   if (href) {
+    if (external || href.startsWith("http")) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" className={styles}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={styles}>
         {children}

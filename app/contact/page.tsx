@@ -1,251 +1,211 @@
 "use client";
 
-import { useState } from "react";
-import { Mail, MapPin, Send, Clock, Instagram, Linkedin, Music2 } from "lucide-react";
-import { AboutCanvas } from "@/components/three/HeroCanvas";
-import { NeonButton } from "@/components/ui/NeonButton";
+import { useLayoutEffect, useRef, useState } from "react";
+import { gsap, registerGSAP } from "@/lib/gsap";
+import { site } from "@/lib/data";
 import clsx from "clsx";
 
 const projectTypes = [
-  "Music Production",
-  "Film Scoring",
-  "Sound Design",
+  "Original Score",
+  "Trailer Music",
+  "Sound Post-Production",
+  "Brand Campaign Music",
   "Mixing & Mastering",
-  "Audio Post-Production",
-  "Brand Audio",
+  "Dolby Atmos Mix",
   "Other",
 ];
 
-const budgetRanges = [
-  { label: "Under $5K", value: "under-5k" },
-  { label: "$5K – $15K", value: "5k-15k" },
-  { label: "$15K – $50K", value: "15k-50k" },
-  { label: "$50K+", value: "50k-plus" },
-  { label: "Not sure", value: "unsure" },
-];
-
-const contactInfo = [
-  { icon: Mail, label: "Email", value: "hello@sylvasounds.com", href: "mailto:hello@sylvasounds.com" },
-  { icon: MapPin, label: "Studios", value: "Los Angeles · London · Remote" },
-  { icon: Clock, label: "Response", value: "Within 24 hours" },
-];
-
 export default function ContactPage() {
-  const [form, setForm] = useState({
-    name: "",
-    company: "",
-    projectType: "",
-    budget: "",
-    message: "",
-  });
+  const sectionRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [form, setForm] = useState({ name: "", company: "", projectType: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  useLayoutEffect(() => {
+    registerGSAP();
+    const ctx = gsap.context(() => {
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from(".contact-kicker", { opacity: 0, y: 14, duration: 0.6 })
+        .from(".contact-title", { opacity: 0, y: 28, duration: 0.85 }, "-=0.25")
+        .from(".contact-copy", { opacity: 0, y: 18, duration: 0.65, stagger: 0.08 }, "-=0.35")
+        .from(".contact-detail", { opacity: 0, y: 12, duration: 0.5, stagger: 0.06 }, "-=0.25")
+        .from(".form-reveal", { opacity: 0, y: 24, duration: 0.7, stagger: 0.07 }, "-=0.15");
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.message.trim()) e.message = "Message is required";
-    if (!form.projectType) e.projectType = "Please select a project type";
+    if (!form.projectType) e.projectType = "Select a project type";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = (ev: React.FormEvent) => {
-    ev.preventDefault();
-    if (!validate()) return;
-    setSubmitted(true);
+  const moveButton = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const btn = buttonRef.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    gsap.to(btn, { x: x * 0.18, y: y * 0.28, duration: 0.28, ease: "power3.out" });
+  };
+
+  const resetButton = () => {
+    if (buttonRef.current) gsap.to(buttonRef.current, { x: 0, y: 0, duration: 0.45, ease: "elastic.out(1, 0.45)" });
   };
 
   return (
-    <div className="pt-24">
-      {/* Hero */}
-      <section className="relative overflow-hidden px-6 py-16 lg:px-8">
-        <div className="pointer-events-none absolute inset-0 radial-glow" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <p className="label-mono mb-4">GET IN TOUCH</p>
-            <h1 className="heading-display text-5xl font-bold text-white-pure md:text-7xl">
-              Let&apos;s Create Something Great
-            </h1>
-            <p className="mt-6 text-lg text-grey-text">
-              Tell us about your project. We&apos;ll respond within 24 hours with next steps.
-            </p>
-          </div>
+    <section ref={sectionRef} className="px-6 pb-28 pt-40 lg:px-8">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="contact-kicker label-mono mb-5 text-sm">Contact</p>
+        <h1
+          className="contact-title font-display font-semibold"
+          style={{ fontSize: "clamp(3.5rem, 9vw, 7.25rem)", lineHeight: 0.92, letterSpacing: "-0.04em" }}
+        >
+          Ready To Shape Your Sound?
+        </h1>
+        <div className="contact-copy mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-text-secondary md:text-xl">
+          <p>Every story has a sound.</p>
+          <p className="mt-2">Let&apos;s build yours.</p>
+          <p className="mt-4">
+            Tell us about your film, campaign, series, or project and we&apos;ll get back within 24 hours.
+          </p>
         </div>
-      </section>
 
-      <section className="px-6 pb-24 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-5">
-          {/* Form */}
-          <div className="lg:col-span-3">
-            {submitted ? (
-              <div className="glass flex min-h-[480px] flex-col items-center justify-center p-12 text-center animate-glow-pulse">
-                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-core/15 ring-1 ring-green-core/30">
-                  <Send className="text-green-core" size={32} />
-                </div>
-                <h2 className="heading-display text-3xl font-bold text-white-pure">Message Sent</h2>
-                <p className="mt-4 max-w-sm text-grey-text">
-                  Thanks for reaching out. Our team will review your brief and get back to you within 24 hours.
-                </p>
-                <div className="mt-8">
-                  <NeonButton href="/catalogue" variant="ghost">
-                    Browse the Catalogue
-                  </NeonButton>
-                </div>
-              </div>
-            ) : (
-              <div className="glass p-8 md:p-10">
-                <h2 className="heading-display mb-8 text-2xl font-semibold text-white-pure">
-                  Project Brief
-                </h2>
-                <form onSubmit={handleSubmit} className="space-y-8" noValidate>
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="name" className="label-mono mb-2 block">Name *</label>
-                      <input
-                        id="name"
-                        type="text"
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        className="w-full rounded-card border border-grey-mid/40 bg-surface-01 px-4 py-3 text-white-soft outline-none transition-colors focus:border-green-core/50"
-                        placeholder="Your name"
-                      />
-                      {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
-                    </div>
-                    <div>
-                      <label htmlFor="company" className="label-mono mb-2 block">Company</label>
-                      <input
-                        id="company"
-                        type="text"
-                        value={form.company}
-                        onChange={(e) => setForm({ ...form, company: e.target.value })}
-                        className="w-full rounded-card border border-grey-mid/40 bg-surface-01 px-4 py-3 text-white-soft outline-none transition-colors focus:border-green-core/50"
-                        placeholder="Company or brand"
-                      />
-                    </div>
-                  </div>
+        <div className="contact-copy mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-medium text-text-secondary md:text-base">
+          <a href={`mailto:${site.email}`} className="contact-detail underline-offset-4 transition-colors hover:text-olive-dark hover:underline">
+            {site.email}
+          </a>
+          <span className="contact-detail hidden h-1 w-1 rounded-full bg-olive-core/45 sm:block" />
+          <span className="contact-detail">India • Remote Worldwide</span>
+          <span className="contact-detail hidden h-1 w-1 rounded-full bg-olive-core/45 sm:block" />
+          <span className="contact-detail">Response within 24 Hours</span>
+        </div>
+      </div>
 
-                  <div>
-                    <label className="label-mono mb-3 block">Project Type *</label>
-                    <div className="flex flex-wrap gap-2">
-                      {projectTypes.map((t) => (
-                        <button
-                          key={t}
-                          type="button"
-                          onClick={() => setForm({ ...form, projectType: t })}
-                          className={clsx(
-                            "rounded-pill border px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition-all",
-                            form.projectType === t
-                              ? "border-green-core bg-green-core text-bg-primary"
-                              : "border-grey-mid/40 text-grey-text hover:border-green-core/40 hover:text-white-soft"
-                          )}
-                        >
-                          {t}
-                        </button>
-                      ))}
-                    </div>
-                    {errors.projectType && <p className="mt-2 text-xs text-red-400">{errors.projectType}</p>}
-                  </div>
-
-                  <div>
-                    <label className="label-mono mb-3 block">Budget Range</label>
-                    <div className="flex flex-wrap gap-2">
-                      {budgetRanges.map((b) => (
-                        <button
-                          key={b.value}
-                          type="button"
-                          onClick={() => setForm({ ...form, budget: b.value })}
-                          className={clsx(
-                            "rounded-pill border px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition-all",
-                            form.budget === b.value
-                              ? "border-green-core/60 bg-green-core/10 text-green-core"
-                              : "border-grey-mid/40 text-grey-text hover:border-green-core/40 hover:text-white-soft"
-                          )}
-                        >
-                          {b.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="label-mono mb-2 block">Message *</label>
-                    <textarea
-                      id="message"
-                      rows={5}
-                      value={form.message}
-                      onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      className="w-full resize-none rounded-card border border-grey-mid/40 bg-surface-01 px-4 py-3 text-white-soft outline-none transition-colors focus:border-green-core/50"
-                      placeholder="Tell us about your project, timeline, and creative vision..."
-                    />
-                    {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
-                  </div>
-
-                  <NeonButton type="submit" variant="primary">
-                    Send Message →
-                  </NeonButton>
-                </form>
-              </div>
-            )}
+      <div className="mx-auto mt-14 max-w-2xl">
+        {submitted ? (
+          <div className="form-reveal rounded-card border border-beige-deep bg-surface-01 p-10 text-center md:p-12">
+            <h2 className="heading-display text-3xl font-semibold">Message sent</h2>
+            <p className="mt-3 text-text-secondary">We&apos;ll be in touch soon.</p>
           </div>
+        ) : (
+          <form
+            className="rounded-card border border-beige-deep bg-surface-01 p-6 md:p-8"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (validate()) setSubmitted(true);
+            }}
+          >
+            <div className="grid gap-5 md:grid-cols-2">
+              <FloatingField id="name" label="Name *" value={form.name} error={errors.name}>
+                <input
+                  id="name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="peer w-full rounded-card border border-beige-deep bg-bg-primary px-4 pb-3 pt-6 outline-none transition-colors duration-300 hover:border-olive-muted/70 focus:border-olive-core"
+                />
+              </FloatingField>
 
-          {/* Sidebar */}
-          <div className="flex flex-col gap-6 lg:col-span-2">
-            <div className="glass overflow-hidden">
-              <div className="pointer-events-none h-48 lg:h-56">
-                <AboutCanvas />
-              </div>
+              <FloatingField id="company" label="Company / Production" value={form.company}>
+                <input
+                  id="company"
+                  value={form.company}
+                  onChange={(e) => setForm({ ...form, company: e.target.value })}
+                  className="peer w-full rounded-card border border-beige-deep bg-bg-primary px-4 pb-3 pt-6 outline-none transition-colors duration-300 hover:border-olive-muted/70 focus:border-olive-core"
+                />
+              </FloatingField>
             </div>
 
-            <div className="glass space-y-5 p-6">
-              <h3 className="label-mono">Contact Info</h3>
-              {contactInfo.map(({ icon: Icon, label, value, href }) => (
-                <div key={label} className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-core/10">
-                    <Icon size={16} className="text-green-core" />
-                  </div>
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-grey-text">{label}</p>
-                    {href ? (
-                      <a href={href} className="mt-0.5 block text-sm text-white-soft hover:text-green-core">
-                        {value}
-                      </a>
-                    ) : (
-                      <p className="mt-0.5 text-sm text-white-soft">{value}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="glass p-6">
-              <h3 className="label-mono mb-4">Follow Us</h3>
-              <div className="flex gap-4">
-                {[
-                  { icon: Instagram, label: "Instagram" },
-                  { icon: Linkedin, label: "LinkedIn" },
-                  { icon: Music2, label: "SoundCloud" },
-                ].map(({ icon: Icon, label }) => (
+            <div className="form-reveal mt-6">
+              <label className="label-mono mb-3 block text-left">Project Type *</label>
+              <div className="flex flex-wrap gap-2">
+                {projectTypes.map((t, i) => (
                   <button
-                    key={label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-grey-mid/40 text-grey-text transition-all hover:border-green-core/40 hover:text-green-core"
-                    aria-label={label}
+                    key={t}
+                    type="button"
+                    onClick={() => setForm({ ...form, projectType: t })}
+                    className={clsx(
+                      "rounded-pill border px-4 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5",
+                      form.projectType === t
+                        ? "border-olive-core bg-olive-core text-surface-01"
+                        : "border-beige-deep text-text-secondary hover:border-olive-muted hover:bg-bg-primary hover:text-olive-dark"
+                    )}
+                    style={{ transitionDelay: `${i * 10}ms` }}
                   >
-                    <Icon size={16} />
+                    {t}
                   </button>
                 ))}
               </div>
+              {errors.projectType && <p className="mt-2 text-left text-xs text-red-600">{errors.projectType}</p>}
             </div>
 
-            <div className="rounded-card border border-green-core/20 bg-green-core/5 p-6">
-              <p className="font-display text-sm font-semibold text-green-core">Quick Turnaround</p>
-              <p className="mt-2 text-sm text-grey-text">
-                Need something fast? Mention your deadline in the message — rush projects welcome.
-              </p>
+            <div className="mt-6">
+              <FloatingField id="message" label="Message *" value={form.message} error={errors.message}>
+                <textarea
+                  id="message"
+                  rows={6}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  className="peer w-full resize-none rounded-card border border-beige-deep bg-bg-primary px-4 pb-3 pt-6 outline-none transition-colors duration-300 hover:border-olive-muted/70 focus:border-olive-core"
+                />
+              </FloatingField>
             </div>
-          </div>
-        </div>
-      </section>
+
+            <div className="form-reveal mt-8 text-center">
+              <button
+                ref={buttonRef}
+                type="submit"
+                onPointerMove={moveButton}
+                onPointerLeave={resetButton}
+                className="inline-flex will-change-transform items-center justify-center rounded-full bg-olive-core px-9 py-4 text-sm font-semibold tracking-wide text-surface-01 transition-colors duration-300 hover:bg-olive-dark active:scale-[0.99]"
+              >
+                Send Message →
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function FloatingField({
+  id,
+  label,
+  value,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
+  const active = value.length > 0;
+
+  return (
+    <div className="form-reveal">
+      <div className="relative">
+        {children}
+        <label
+          htmlFor={id}
+          className={clsx(
+            "pointer-events-none absolute left-4 top-4 origin-left font-body text-sm font-semibold uppercase tracking-[0.14em] text-text-muted transition-all duration-300",
+            "peer-focus:top-2 peer-focus:scale-[0.78] peer-focus:text-olive-core",
+            active && "top-2 scale-[0.78] text-olive-core"
+          )}
+        >
+          {label}
+        </label>
+      </div>
+      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );
 }

@@ -1,61 +1,79 @@
 import Link from "next/link";
+import { site } from "@/lib/data";
 
 const footerLinks = {
-  Pages: [
+  Studio: [
     { href: "/services", label: "Services" },
-    { href: "/catalogue", label: "Catalogue" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/case-studies", label: "Case Studies" },
-  ],
-  Company: [
+    { href: "/portfolio", label: "Work" },
     { href: "/about", label: "About" },
     { href: "/industries", label: "Industries" },
+  ],
+  Connect: [
     { href: "/contact", label: "Contact" },
+    { href: site.creditsDriveUrl, label: "Credits", external: true },
+    { href: `mailto:${site.email}`, label: site.email, external: true },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="border-t border-grey-mid/30 bg-bg-secondary">
+    <footer className="dark-zone relative z-10 border-t" style={{ borderColor: "var(--dark-border)" }}>
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <p className="font-display text-2xl font-bold text-white-pure">
-              SYLVA<span className="text-green-core"> SOUNDS</span>
+            <p className="font-display text-3xl font-semibold text-on-dark">{site.name}</p>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-on-dark-dim">
+              Music, sound design and audio post-production for film, OTT, brands, and digital media.
+              Based in Mumbai, working globally.
             </p>
-            <p className="mt-4 max-w-sm text-grey-text">
-              Premium audio production for film, media, and brands. Where technology meets artistry.
-            </p>
+            <div className="mt-8 flex items-end gap-[4px]" style={{ height: 20 }} aria-hidden>
+              {[3, 6, 4, 8, 5, 7, 4, 6, 3, 5, 7, 4].map((h, i) => (
+                <div
+                  key={i}
+                  className="waveform-bar w-[3px] rounded-sm bg-olive-core"
+                  style={{
+                    height: h * 2,
+                    opacity: 0.5,
+                    animationDelay: `${i * 0.12}s`,
+                    transformOrigin: "bottom",
+                  }}
+                />
+              ))}
+            </div>
           </div>
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <p className="label-mono mb-4">{title}</p>
+              <p className="label-mono mb-5 text-[10px] text-on-dark-label">{title}</p>
               <ul className="space-y-3">
                 {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-grey-text transition-colors hover:text-green-core"
-                    >
-                      {link.label}
-                    </Link>
+                  <li key={link.label}>
+                    {"external" in link && link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-on-dark-dim transition-colors hover:text-on-dark"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-sm text-on-dark-dim transition-colors hover:text-on-dark"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-grey-mid/20 pt-8 md:flex-row">
-          <p className="font-mono text-xs text-grey-text">
-            © {new Date().getFullYear()} Sylva Sounds. All rights reserved.
+        <div className="mt-12 border-t pt-8 text-center" style={{ borderColor: "var(--dark-border)" }}>
+          <p className="text-xs text-on-dark-dim">
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            {["Instagram", "LinkedIn", "SoundCloud"].map((social) => (
-              <span key={social} className="font-mono text-xs text-grey-text hover:text-green-core cursor-pointer">
-                {social}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

@@ -23,13 +23,10 @@ export function ScrollIndicator() {
 
   return (
     <div className="fixed right-6 top-1/2 z-30 hidden -translate-y-1/2 md:block">
-      <div className="relative h-32 w-px bg-grey-mid/40">
+      <div className="relative h-32 w-px bg-beige-deep">
         <div
-          className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-green-core transition-all duration-150"
-          style={{
-            top: `${progress * 100}%`,
-            boxShadow: "0 0 12px rgba(26,255,107,0.6)",
-          }}
+          className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-olive-core transition-all duration-150"
+          style={{ top: `${progress * 100}%` }}
         />
       </div>
     </div>

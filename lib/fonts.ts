@@ -1,22 +1,15 @@
-import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
 
-export const syne = Syne({
+export const displayFont = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-syne",
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
-export const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-display-serif",
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-export const jetbrainsMono = JetBrains_Mono({
+export const bodyFont = Source_Sans_3({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
-  weight: ["400", "500"],
+  variable: "--font-body-sans",
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });

@@ -44,7 +44,7 @@ export function MiniPlayer() {
       <div className="glass mx-4 mb-4 flex items-center gap-4 px-6 py-4 md:mx-8">
         <button
           onClick={togglePlay}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-core text-bg-primary transition-transform hover:scale-105 active:scale-95"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-olive-core text-surface-01 transition-transform hover:scale-105 active:scale-95"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? <Pause size={20} /> : <Play size={20} className="ml-0.5" />}
@@ -86,7 +86,7 @@ export function MiniPlayer() {
         <div className="hidden items-center gap-2 md:flex">
           <button
             onClick={toggleMute}
-            className="p-2 text-grey-text transition-colors hover:text-green-core"
+            className="p-2 text-text-secondary transition-colors hover:text-olive-dark"
             aria-label={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
@@ -98,7 +98,7 @@ export function MiniPlayer() {
             step={0.01}
             value={isMuted ? 0 : volume}
             onChange={(e) => setVolume(parseFloat(e.target.value))}
-            className="h-1 w-20 cursor-pointer accent-green-core"
+            className="h-1 w-20 cursor-pointer accent-olive-core"
             aria-label="Volume"
           />
         </div>

@@ -51,9 +51,7 @@ Deploy to Vercel with zero configuration. Set environment variables in the Verce
 
 - `/` — Home
 - `/services` — Services
-- `/catalogue` — Music catalogue with filters and mini player
 - `/portfolio` — Project showcase
-- `/case-studies` — Editorial case studies
 - `/industries` — Industries served
 - `/about` — About & team
 - `/contact` — Contact form

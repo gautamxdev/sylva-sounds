@@ -16,8 +16,8 @@ export function TagChip({ label, active, onClick }: TagChipProps) {
       className={clsx(
         "rounded-pill px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all duration-200",
         active
-          ? "bg-green-core text-bg-primary"
-          : "border border-grey-mid/50 bg-surface-01 text-grey-text hover:border-green-core/40 hover:text-white-soft",
+          ? "bg-olive-core text-surface-01"
+          : "border border-beige-deep bg-surface-01 text-text-secondary hover:border-olive-muted hover:text-olive-dark",
         onClick && "cursor-pointer"
       )}
     >

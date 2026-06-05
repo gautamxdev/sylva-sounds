@@ -3,29 +3,29 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Volume2, VolumeX } from "lucide-react";
-import { useAudio } from "@/components/audio/AudioProvider";
-import { NeonButton } from "@/components/ui/NeonButton";
+import { Menu, X } from "lucide-react";
+import { site } from "@/lib/data";
 import clsx from "clsx";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
-  { href: "/catalogue", label: "Catalogue" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/case-studies", label: "Case Studies" },
+  { href: "/portfolio", label: "Work" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
-  const { isMuted, toggleMute } = useAudio();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const overHero = isHome && !scrolled;
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -34,63 +34,83 @@ export function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const logoClass = overHero ? "text-text-primary" : "text-on-dark";
+  const linkClass = (active: boolean) =>
+    overHero
+      ? active
+        ? "text-olive-dark"
+        : "text-text-primary/85 hover:text-text-primary"
+      : active
+        ? "text-on-dark"
+        : "text-on-dark-dim hover:text-on-dark";
+  const menuClass = overHero ? "text-text-primary" : "text-on-dark";
+
   return (
     <>
       <header
         className={clsx(
-          "fixed left-0 right-0 top-0 z-[9999] transition-all duration-300",
-          scrolled ? "py-3" : "py-5"
+          "fixed left-0 right-0 top-0 z-[9999] transition-[background,backdrop-filter,border,padding] duration-300",
+          overHero ? "py-5" : "border-b py-3"
         )}
         style={{
-          backdropFilter: "blur(20px)",
-          background: "rgba(13, 26, 15, 0.85)",
-          borderBottom: "1px solid rgba(26, 255, 107, 0.08)",
-          pointerEvents: "auto",
+          background: overHero
+            ? "linear-gradient(to bottom, rgba(244,239,230,0.9), rgba(244,239,230,0.56), transparent)"
+            : "color-mix(in srgb, var(--dark-bg) 97%, transparent)",
+          backdropFilter: overHero ? "none" : "blur(12px)",
+          borderColor: overHero ? "transparent" : "var(--dark-border)",
         }}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8">
-          <Link href="/" className="font-display text-lg font-bold tracking-tight text-white-pure md:text-xl">
-            SYLVA<span className="text-green-core"> SOUNDS</span>
+          <Link
+            href="/"
+            className={clsx(
+              "font-display text-2xl font-semibold tracking-tight transition-opacity hover:opacity-80 md:text-[1.65rem]",
+              logoClass
+            )}
+          >
+            {site.name}
           </Link>
 
-          <ul className="hidden items-center gap-8 lg:flex">
+          <ul className="hidden items-center gap-10 lg:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   className={clsx(
-                    "relative font-body text-sm transition-colors",
-                    pathname === link.href
-                      ? "text-white-pure"
-                      : "text-grey-text hover:text-white-pure"
+                    "relative font-body text-base font-medium tracking-wide transition-colors md:text-lg",
+                    linkClass(pathname === link.href)
                   )}
                 >
                   {link.label}
                   {pathname === link.href && (
-                    <span className="absolute -bottom-1 left-0 h-px w-full bg-green-core shadow-[0_0_8px_rgba(26,255,107,0.6)]" />
+                    <span className="absolute -bottom-1 left-0 h-px w-full bg-olive-core" />
                   )}
                 </Link>
               </li>
             ))}
           </ul>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={toggleMute}
-              className="hidden p-2 text-grey-text transition-colors hover:text-green-core md:block"
-              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+          <div className="flex items-center gap-4">
+            <a
+              href="/contact"
+              className="hidden rounded-full bg-olive-core px-7 py-3 text-sm font-semibold tracking-wide text-surface-01 transition-colors hover:bg-olive-dark sm:inline-flex md:text-base"
             >
-              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-            </button>
-            <NeonButton href="/contact" variant="primary" className="hidden sm:inline-flex">
-              Start a Project →
-            </NeonButton>
+              Start a Project
+            </a>
             <button
-              className="p-2 text-white-pure lg:hidden"
+              type="button"
+              className={clsx("p-1 transition-opacity hover:opacity-70 lg:hidden", menuClass)}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
             >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </nav>
@@ -98,21 +118,19 @@ export function Navbar() {
 
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-[101] flex flex-col items-center justify-center bg-bg-primary/95 backdrop-blur-xl lg:hidden"
-          style={{ paddingTop: "80px" }}
+          className="fixed inset-0 z-[9998] flex flex-col items-center justify-center lg:hidden"
+          style={{
+            background: "var(--dark-bg)",
+          }}
         >
-          <ul className="flex flex-col items-center gap-8">
-            {navLinks.map((link, i) => (
-              <li
-                key={link.href}
-                style={{ animationDelay: `${i * 60}ms` }}
-                className="animate-[fadeInUp_0.4s_ease-out_both]"
-              >
+          <ul className="flex flex-col items-center gap-9">
+            {navLinks.map((link) => (
+              <li key={link.href}>
                 <Link
                   href={link.href}
                   className={clsx(
-                    "font-display text-3xl font-semibold",
-                    pathname === link.href ? "text-green-core" : "text-white-soft"
+                    "font-display text-4xl font-medium",
+                    pathname === link.href ? "text-on-dark-accent" : "text-on-dark"
                   )}
                 >
                   {link.label}
@@ -120,11 +138,12 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="mt-12">
-            <NeonButton href="/contact" variant="primary">
-              Start a Project →
-            </NeonButton>
-          </div>
+          <a
+            href="/contact"
+            className="mt-14 rounded-full bg-olive-core px-8 py-3.5 text-sm font-semibold text-surface-01"
+          >
+            Start a Project
+          </a>
         </div>
       )}
     </>

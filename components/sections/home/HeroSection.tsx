@@ -1,60 +1,127 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
-import { gsap, registerGSAP } from "@/lib/gsap";
-import { HeroCanvas } from "@/components/three/HeroCanvas";
-import { NeonButton } from "@/components/ui/NeonButton";
+import { useLayoutEffect, useRef } from "react";
+import { gsap, ScrollTrigger, registerGSAP } from "@/lib/gsap";
+import { site } from "@/lib/data";
 
 export function HeroSection() {
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     registerGSAP();
     const ctx = gsap.context(() => {
-      gsap.from(".hero-animate", {
+      // Atmospheric entrance — the world is nearly silent, then copy emerges
+      const tl = gsap.timeline({ delay: 0.15 });
+      tl.fromTo(".hero-label", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" })
+        .fromTo(
+          ".hero-line",
+          { opacity: 0, y: 90, skewY: 4 },
+          { opacity: 1, y: 0, skewY: 0, duration: 1.1, stagger: 0.14, ease: "power4.out" },
+          "-=0.2"
+        )
+        .fromTo(".hero-role", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power2.out" }, "-=0.65")
+        .fromTo(".hero-sub", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power2.out" }, "-=0.5");
+
+      // As you begin scrolling, the hero dissolves upward into the world —
+      // the ribbon (driven globally by scroll progress) grows to take over.
+      gsap.to(contentRef.current, {
+        yPercent: -18,
         opacity: 0,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.08,
-        ease: "power3.out",
-        delay: 0.3,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
+        },
       });
-    }, contentRef);
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <HeroCanvas density="full" />
-      <div className="radial-glow pointer-events-none absolute inset-0" />
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden py-28"
+    >
+      {/* Warm legibility vignette over the living world */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 58% at 50% 45%, rgba(244,239,230,0.78) 0%, rgba(244,239,230,0.34) 48%, transparent 78%)",
+        }}
+      />
 
-      <div ref={contentRef} className="relative z-10 mx-auto max-w-5xl px-6 text-center">
-        <p className="hero-animate label-mono mb-6">[ AUDIO PRODUCTION HOUSE ]</p>
-        <h1
-          ref={headlineRef}
-          className="hero-animate heading-display mb-6 text-5xl font-bold leading-[1.05] text-white-pure sm:text-7xl lg:text-[7rem]"
+      <div ref={contentRef} className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center lg:px-8">
+        <p
+          className="hero-label mb-8 inline-block rounded-full border border-olive-core/30 px-5 py-2 font-body text-sm font-semibold uppercase tracking-[0.2em] opacity-0 md:text-base"
+          style={{ color: "var(--olive-dark)" }}
         >
-          We Craft Sound
-          <br />
-          Into Experience
-        </h1>
-        <p className="hero-animate mx-auto mb-10 max-w-xl text-lg text-grey-text">
-          Music. Sound Design. Mixing. Mastering. Post-Production.
+          Studio · Mumbai &amp; Remote
         </p>
-        <div className="hero-animate flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <NeonButton href="/portfolio" variant="outline">
-            Explore Our Work
-          </NeonButton>
-          <NeonButton href="/catalogue" variant="ghost">
-            Hear the Catalogue
-          </NeonButton>
+
+        <h1 className="font-display leading-[0.88] tracking-[-0.04em]">
+          <span
+            className="hero-line block opacity-0"
+            style={{ fontSize: "clamp(4rem, 12vw, 9rem)", fontWeight: 500, color: "var(--text-primary)" }}
+          >
+            Sylva
+          </span>
+          <span
+            className="hero-line block opacity-0"
+            style={{ fontSize: "clamp(4rem, 12vw, 9rem)", fontWeight: 500, color: "var(--olive-core)" }}
+          >
+            Sounds
+          </span>
+        </h1>
+
+        <p className="hero-sub mt-8 font-display text-xl font-medium italic opacity-0 md:text-2xl lg:text-3xl" style={{ color: "var(--text-secondary)" }}>
+          {site.tagline}
+        </p>
+
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          {["Music Producer", "Film Composer", "Sound Designer"].map((role) => (
+            <span
+              key={role}
+              className="hero-role rounded-full border border-olive-core/25 bg-surface-01/55 px-4 py-2 text-sm font-semibold tracking-wide opacity-0 md:text-base"
+              style={{ color: "var(--olive-dark)" }}
+            >
+              {role}
+            </span>
+          ))}
+        </div>
+
+        <p className="hero-sub mx-auto mt-5 max-w-xl text-base leading-relaxed opacity-0 md:text-lg lg:text-xl" style={{ color: "var(--text-secondary)" }}>
+          {site.description}
+        </p>
+
+        <div className="hero-sub mt-10 flex flex-wrap justify-center gap-4 opacity-0">
+          <a
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-full bg-olive-core px-10 py-4 text-base font-semibold tracking-wide text-surface-01 transition-all duration-300 hover:bg-olive-dark hover:shadow-[0_4px_32px_rgba(92,107,61,0.4)]"
+          >
+            Start a Project
+          </a>
+          <a
+            href="/portfolio"
+            className="inline-flex items-center justify-center rounded-full border border-olive-core/35 px-10 py-4 text-base font-semibold tracking-wide text-text-primary transition-all duration-300 hover:border-olive-core hover:bg-olive-core/5"
+          >
+            Explore Our Work ↗
+          </a>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2">
-        <ChevronDown className="animate-pulse-arrow text-green-core" size={28} />
+      <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
+        <span className="font-body text-xs font-semibold uppercase tracking-[0.28em]" style={{ color: "rgba(92,107,61,0.55)" }}>
+          scroll
+        </span>
+        <div
+          className="animate-pulse-arrow h-12 w-px"
+          style={{ background: "linear-gradient(to bottom, rgba(92,107,61,0.5), transparent)" }}
+        />
       </div>
     </section>
   );
