@@ -1,13 +1,12 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import { Music2, Waves, SlidersHorizontal } from "lucide-react";
+import { Music2, Waves, SlidersHorizontal, Mic2 } from "lucide-react";
 import { gsap, registerGSAP } from "@/lib/gsap";
 import { serviceCategories } from "@/lib/data";
-import { NeonButton } from "@/components/ui/NeonButton";
 import { RevealText } from "@/components/ui/RevealText";
 
-const ICONS = [Music2, Waves, SlidersHorizontal] as const;
+const ICONS = [Music2, Waves, SlidersHorizontal, Mic2] as const;
 
 export function ServicesOverview() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -49,24 +48,16 @@ export function ServicesOverview() {
   return (
     <section ref={sectionRef} data-stage="production" className="veil-warm border-t border-beige-deep/50 px-6 py-20 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 flex flex-col gap-6 border-b border-beige-deep pb-10 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="svc-heading-meta label-mono mb-4 text-base md:text-lg">What We Do</p>
-            <RevealText
-              text="Services"
-              className="heading-display font-semibold leading-[0.92] tracking-[-0.03em]"
-              style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
-            />
-          </div>
-          <a
-            href="/services"
-            className="svc-heading-meta shrink-0 text-base font-medium text-olive-core underline-offset-4 hover:text-olive-dark hover:underline md:text-lg"
-          >
-            View all →
-          </a>
+        <div className="mb-12 border-b border-beige-deep pb-10">
+          <p className="svc-heading-meta label-mono mb-4 text-base md:text-lg">What We Do</p>
+          <RevealText
+            text="Services"
+            className="heading-display font-semibold leading-[0.92] tracking-[-0.03em]"
+            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
+          />
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {serviceCategories.map((cat, i) => {
             const Icon = ICONS[i % ICONS.length];
             return (
@@ -95,12 +86,6 @@ export function ServicesOverview() {
               </a>
             );
           })}
-        </div>
-
-        <div className="mt-14 text-center">
-          <NeonButton href="/services" variant="outline">
-            View All Services
-          </NeonButton>
         </div>
       </div>
     </section>

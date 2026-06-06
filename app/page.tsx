@@ -1,12 +1,10 @@
 import { HeroSection } from "@/components/sections/home/HeroSection";
 import { ClientLogos } from "@/components/sections/home/ClientLogos";
-import { StatsRow } from "@/components/sections/home/StatsRow";
 import { FeaturedWork } from "@/components/sections/home/FeaturedWork";
-import { Showreel } from "@/components/sections/home/Showreel";
+import { OurCatalogue } from "@/components/sections/home/OurCatalogue";
 import { ProcessSteps } from "@/components/sections/home/ProcessSteps";
 import { ServicesOverview } from "@/components/sections/home/ServicesOverview";
 import { MediaTypes } from "@/components/sections/home/MediaTypes";
-import { CreditsSection } from "@/components/sections/home/CreditsSection";
 import { ContactCTA } from "@/components/sections/home/ContactCTA";
 
 export default function HomePage() {
@@ -14,13 +12,13 @@ export default function HomePage() {
     <>
       <HeroSection />
       <ClientLogos />
-      <StatsRow />
       <FeaturedWork />
-      <Showreel />
+      <OurCatalogue />
       <ProcessSteps />
-      <ServicesOverview />
+      <div id="services">
+        <ServicesOverview />
+      </div>
       <MediaTypes />
-      <CreditsSection />
       <ContactCTA />
     </>
   );

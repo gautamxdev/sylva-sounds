@@ -16,7 +16,7 @@ const MEDIA_GROUPS = [
   },
   {
     title: "Interactive & other",
-    items: ["Video Games", "Explainer Videos", "Podcasts"],
+    items: ["Game sound audio assets", "Explainer Videos", "Podcasts"],
   },
 ];
 

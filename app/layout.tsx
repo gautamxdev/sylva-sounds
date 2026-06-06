@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  metadataBase: new URL("https://sylvasounds.com"),
   openGraph: {
     title: site.name,
     description: site.description,
@@ -24,11 +25,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: site.name,
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://open.spotify.com" />
+        <link rel="preconnect" href="https://i.scdn.co" />
+        <link rel="preconnect" href="https://p.scdn.co" />
+        <link rel="preconnect" href="https://img.youtube.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+      </head>
       <body>
         <AudioProvider>
           <SmoothScroll>

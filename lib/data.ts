@@ -30,9 +30,8 @@ export interface ServiceCategory {
 
 export const site = {
   name: "Sylva Sounds",
-  tagline: "Music, Sound & Audio Production for Modern Media",
-  description:
-    "Original scores, sound design and audio post-production for brands, films and digital experiences.",
+  tagline: "From Silence to Experience",
+  description: "Music, Sound & Audio Production for Modern Media",
   email: "hello@sylvasounds.com",
   creditsDriveUrl:
     "https://drive.google.com/drive/folders/1MC6ngFWsnaAT3UW6KuxZX3nqXSY_hwqN?usp=drive_link",
@@ -40,43 +39,18 @@ export const site = {
 
 export interface BrandClient {
   name: string;
-  logo?: string | null;
-  /** Two-letter monogram when no CDN logo is available */
-  monogram?: string;
+  logo: string;
+  scale?: number;
 }
 
 export const brandLogos: BrandClient[] = [
-  {
-    name: "Tata",
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/tata.svg",
-  },
-  {
-    name: "OnePlus",
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/oneplus.svg",
-  },
-  {
-    name: "Zee5",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Zee5-official-logo.jpeg",
-  },
-  {
-    name: "BMW",
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/bmw.svg",
-  },
-  {
-    name: "Fastrack",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Fastrack_logo.png",
-  },
-  {
-    name: "Parle",
-    logo: "https://logo.debounce.com/parleproducts.com",
-  },
-  { name: "White Hill Music", monogram: "WH" },
-  { name: "Wings Music", monogram: "WM" },
-  {
-    name: "NCS",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/8/82/No_Copyright_Sounds_logo.svg",
-  },
-  { name: "Spininn", monogram: "SP" },
+  { name: "Tata", logo: "/logos/clients/tata.png", scale: 1 },
+  { name: "OnePlus", logo: "/logos/clients/oneplus.png", scale: 1.05 },
+  { name: "BMW", logo: "/logos/clients/bmw.png", scale: 1.1 },
+  { name: "NCS", logo: "/logos/clients/ncs.png", scale: 1 },
+  { name: "Parle", logo: "/logos/clients/parle.png", scale: 1.05 },
+  { name: "White Hill Music", logo: "/logos/clients/white-hill.png", scale: 1 },
+  { name: "Zee5", logo: "/logos/clients/zee5.png", scale: 1 },
 ];
 
 export const brandClients = brandLogos.map((b) => b.name);
@@ -92,15 +66,6 @@ export const featuredWork: FeaturedWork[] = [
     image: "https://img.youtube.com/vi/U69BddfXlzM/maxresdefault.jpg",
   },
   {
-    id: "2",
-    slug: "vardaan",
-    title: "Vardaan",
-    type: "Trailer Score",
-    videoUrl: "https://youtu.be/PyuyFSB2x84",
-    videoId: "PyuyFSB2x84",
-    image: "https://img.youtube.com/vi/PyuyFSB2x84/maxresdefault.jpg",
-  },
-  {
     id: "3",
     slug: "oneplus",
     title: "OnePlus",
@@ -108,6 +73,15 @@ export const featuredWork: FeaturedWork[] = [
     videoUrl: "https://youtu.be/c01FMC-WxXo",
     videoId: "c01FMC-WxXo",
     image: "https://img.youtube.com/vi/c01FMC-WxXo/maxresdefault.jpg",
+  },
+  {
+    id: "2",
+    slug: "vardaan",
+    title: "Vardaan",
+    type: "Trailer Score",
+    videoUrl: "https://youtu.be/PyuyFSB2x84",
+    videoId: "PyuyFSB2x84",
+    image: "https://img.youtube.com/vi/PyuyFSB2x84/maxresdefault.jpg",
   },
   {
     id: "4",
@@ -123,8 +97,6 @@ export const featuredWork: FeaturedWork[] = [
     slug: "the-secret",
     title: "The Secret",
     type: "Final Mix & Audio Finishing",
-    // No public reel URL on file — excluded from Showreel via videoId filter.
-    // TODO(client): Add videoUrl/videoId when a public clip is available; swap image to a Drive poster.
     image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1200&h=800&fit=crop",
   },
   {
@@ -135,6 +107,24 @@ export const featuredWork: FeaturedWork[] = [
     videoUrl: "https://youtu.be/5kzSIrk8It4",
     videoId: "5kzSIrk8It4",
     image: "https://img.youtube.com/vi/5kzSIrk8It4/maxresdefault.jpg",
+  },
+  {
+    id: "7",
+    slug: "ad-content-localisation",
+    title: "Advertisement Content Localisation",
+    type: "Advertisement Content Localisation",
+    videoUrl: "https://www.youtube.com/watch?v=6swuSVRr-CA",
+    videoId: "6swuSVRr-CA",
+    image: "https://img.youtube.com/vi/6swuSVRr-CA/maxresdefault.jpg",
+  },
+  {
+    id: "8",
+    slug: "ad-audio-post",
+    title: "Advertisement Audio Post Production",
+    type: "Advertisement Audio Post Production",
+    videoUrl: "https://www.youtube.com/watch?v=sBVtDjt9fe0",
+    videoId: "sBVtDjt9fe0",
+    image: "https://img.youtube.com/vi/sBVtDjt9fe0/maxresdefault.jpg",
   },
 ];
 
@@ -149,6 +139,83 @@ export const portfolioProjects: PortfolioProject[] = featuredWork.map((w) => ({
   videoId: w.videoId,
   client: w.type,
 }));
+
+export interface CatalogueSong {
+  id: string;
+  title: string;
+  credit: string;
+  spotifyUrl: string;
+  spotifyTrackId: string;
+  previewStart: number; // seconds — Spotify deep link / embed start offset
+  previewUrl: string;   // 30s MP3 preview — instant in-site playback on click
+  artwork?: string;
+}
+
+export const catalogueSongs: CatalogueSong[] = [
+  {
+    id: "naina-laage",
+    title: "Naina Laage",
+    credit: "Composed, Produced & Engineered",
+    spotifyUrl: "https://open.spotify.com/track/1cJSZr8PPcqDMqys9ldwHk",
+    spotifyTrackId: "1cJSZr8PPcqDMqys9ldwHk",
+    previewStart: 185,
+    previewUrl: "https://p.scdn.co/mp3-preview/5b9192743dc6231c6338c5da8bb39002a474057e",
+  },
+  {
+    id: "homestudio",
+    title: "Homestudio",
+    credit: "Music Production",
+    spotifyUrl: "https://open.spotify.com/track/6fhIFGEL0t28F1e4Md6lCy",
+    spotifyTrackId: "6fhIFGEL0t28F1e4Md6lCy",
+    previewStart: 51,
+    previewUrl: "https://p.scdn.co/mp3-preview/cd0888c8806624d2b11610af6bf3c28acb2b5ebb",
+  },
+  {
+    id: "money-first",
+    title: "Money First",
+    credit: "Music Production",
+    spotifyUrl: "https://open.spotify.com/track/3v0CDBrvFJ3NWSy9sg3IoS",
+    spotifyTrackId: "3v0CDBrvFJ3NWSy9sg3IoS",
+    previewStart: 40,
+    previewUrl: "https://p.scdn.co/mp3-preview/ba77667dda0f8399d7c168a20b4f63469bb0fcb3",
+  },
+  {
+    id: "chora-wohi",
+    title: "Chora Wohi",
+    credit: "Music Production",
+    spotifyUrl: "https://open.spotify.com/track/60DEYvF1PmaL7VFBCQfUKD",
+    spotifyTrackId: "60DEYvF1PmaL7VFBCQfUKD",
+    previewStart: 92,
+    previewUrl: "https://p.scdn.co/mp3-preview/3332f88b1660ce0c8ffc4e9fff81616b14fdc9de",
+  },
+  {
+    id: "jiya-jaye-na",
+    title: "Jiya Jaye Na",
+    credit: "Mixing & Mastering",
+    spotifyUrl: "https://open.spotify.com/track/3c1wvlkS1q404QfID2ZsPd",
+    spotifyTrackId: "3c1wvlkS1q404QfID2ZsPd",
+    previewStart: 70,
+    previewUrl: "https://p.scdn.co/mp3-preview/95f3381c3df6a3fed2c6753078896577d9592548",
+  },
+  {
+    id: "yaad-karu-na",
+    title: "Yaad Karu Na",
+    credit: "Mix & Master",
+    spotifyUrl: "https://open.spotify.com/track/7ET3Og6ge05lIP5ecuEwr9",
+    spotifyTrackId: "7ET3Og6ge05lIP5ecuEwr9",
+    previewStart: 76,
+    previewUrl: "https://p.scdn.co/mp3-preview/c8d7847f2bf4a2fea9387069fe8a92661cc320c7",
+  },
+  {
+    id: "aadatein-hai",
+    title: "Aadatein Hai",
+    credit: "Composed, Produced & Engineered",
+    spotifyUrl: "https://open.spotify.com/track/2dc7fqKx6ljfiqAMgi44kU",
+    spotifyTrackId: "2dc7fqKx6ljfiqAMgi44kU",
+    previewStart: 80,
+    previewUrl: "https://p.scdn.co/mp3-preview/d3b9cc0d615d200c4f2fd19ef30d94216bcdbaac",
+  },
+];
 
 export const serviceCategories: ServiceCategory[] = [
   {
@@ -194,6 +261,20 @@ export const serviceCategories: ServiceCategory[] = [
       "Program Audio Sweetening",
     ],
   },
+  {
+    id: "artist-development",
+    title: "Songs & Artist Development",
+    description: "From demos to release-ready records — helping artists shape their sound and bring songs to life.",
+    items: [
+      "Song Production",
+      "Composition & Songwriting Support",
+      "Arrangement & Programming",
+      "Vocal Production",
+      "Recording Supervision",
+      "Indie Artist Releases",
+      "Release-Ready Masters",
+    ],
+  },
 ];
 
 export const mediaTypes = [
@@ -202,7 +283,7 @@ export const mediaTypes = [
   "Trailers & Promos",
   "Commercials & Brand Films",
   "Documentaries",
-  "Video Games",
+  "Game sound audio assets",
   "Explainer Videos",
   "Digital Content",
   "Podcasts",
@@ -213,6 +294,31 @@ export const mediaTypes = [
 export const creditsSummary = {
   headline: "20+ Films, Shorts & Digital Projects",
   subline: "Credits across Indian cinema, OTT, advertising, and digital media.",
+};
+
+export const aboutStudio = {
+  location: "Mumbai",
+  reach: "Working globally",
+  pillars: [
+    {
+      title: "Story-first",
+      line: "Every cue, mix, and sound design choice serves the narrative — not the other way around.",
+    },
+    {
+      title: "End-to-end",
+      line: "From first demo to Dolby Atmos delivery, one team carries the audio through the full pipeline.",
+    },
+    {
+      title: "Craft & speed",
+      line: "Broadcast-ready quality without losing the agility modern productions demand.",
+    },
+  ],
+  stats: [
+    { value: "20+", label: "Films & digital projects" },
+    { value: "Dolby", label: "Certified studio sessions" },
+    { value: "7+", label: "Major brand partners" },
+    { value: "Global", label: "Remote collaboration" },
+  ],
 };
 
 export interface CreditPoster {

@@ -1,18 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export function ScrollIndicator() {
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
+  const ticking = useRef(false);
 
   useEffect(() => {
     const onScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const p = docHeight > 0 ? scrollTop / docHeight : 0;
-      setProgress(p);
-      setVisible(p > 0.05 && p < 0.95);
+      if (!ticking.current) {
+        ticking.current = true;
+        requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const p = docHeight > 0 ? scrollTop / docHeight : 0;
+          setProgress(p);
+          setVisible(p > 0.05 && p < 0.95);
+          ticking.current = false;
+        });
+      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();

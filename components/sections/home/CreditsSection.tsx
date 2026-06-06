@@ -3,8 +3,7 @@
 import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap, registerGSAP } from "@/lib/gsap";
-import { creditPosters, creditsSummary, site } from "@/lib/data";
-import { NeonButton } from "@/components/ui/NeonButton";
+import { creditPosters, creditsSummary } from "@/lib/data";
 
 function rotate<T>(items: T[], offset: number): T[] {
   if (!items.length) return items;
@@ -67,11 +66,6 @@ export function CreditsSection() {
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary md:text-xl lg:text-2xl">
           {creditsSummary.subline}
         </p>
-        <div className="mt-10">
-          <NeonButton href={site.creditsDriveUrl} external variant="primary">
-            View Full Credits →
-          </NeonButton>
-        </div>
       </div>
     </section>
   );

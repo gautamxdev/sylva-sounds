@@ -12,13 +12,14 @@ const projectTypes = [
   "Brand Campaign Music",
   "Mixing & Mastering",
   "Dolby Atmos Mix",
+  "Songs & Artist Development",
   "Other",
 ];
 
 export default function ContactPage() {
   const sectionRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [form, setForm] = useState({ name: "", company: "", projectType: "", message: "" });
+  const [form, setForm] = useState({ name: "", company: "", projectType: [] as string[], message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -37,11 +38,20 @@ export default function ContactPage() {
     return () => ctx.revert();
   }, []);
 
+  const toggleProjectType = (type: string) => {
+    setForm((prev) => ({
+      ...prev,
+      projectType: prev.projectType.includes(type)
+        ? prev.projectType.filter((t) => t !== type)
+        : [...prev.projectType, type],
+    }));
+  };
+
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.message.trim()) e.message = "Message is required";
-    if (!form.projectType) e.projectType = "Select a project type";
+    if (form.projectType.length === 0) e.projectType = "Select at least one project type";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -125,22 +135,25 @@ export default function ContactPage() {
             <div className="form-reveal mt-6">
               <label className="label-mono mb-3 block text-left">Project Type *</label>
               <div className="flex flex-wrap gap-2">
-                {projectTypes.map((t, i) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setForm({ ...form, projectType: t })}
-                    className={clsx(
-                      "rounded-pill border px-4 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5",
-                      form.projectType === t
-                        ? "border-olive-core bg-olive-core text-surface-01"
-                        : "border-beige-deep text-text-secondary hover:border-olive-muted hover:bg-bg-primary hover:text-olive-dark"
-                    )}
-                    style={{ transitionDelay: `${i * 10}ms` }}
-                  >
-                    {t}
-                  </button>
-                ))}
+                {projectTypes.map((t, i) => {
+                  const selected = form.projectType.includes(t);
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => toggleProjectType(t)}
+                      className={clsx(
+                        "rounded-pill border px-4 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5",
+                        selected
+                          ? "border-olive-core bg-olive-core text-surface-01"
+                          : "border-beige-deep text-text-secondary hover:border-olive-muted hover:bg-bg-primary hover:text-olive-dark"
+                      )}
+                      style={{ transitionDelay: `${i * 10}ms` }}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
               </div>
               {errors.projectType && <p className="mt-2 text-left text-xs text-red-600">{errors.projectType}</p>}
             </div>

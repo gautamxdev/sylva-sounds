@@ -3,7 +3,6 @@ import { site } from "@/lib/data";
 
 const footerLinks = {
   Studio: [
-    { href: "/services", label: "Services" },
     { href: "/portfolio", label: "Work" },
     { href: "/about", label: "About" },
     { href: "/industries", label: "Industries" },

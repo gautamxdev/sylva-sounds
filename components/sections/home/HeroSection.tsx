@@ -13,15 +13,12 @@ export function HeroSection() {
     const ctx = gsap.context(() => {
       // Atmospheric entrance — the world is nearly silent, then copy emerges
       const tl = gsap.timeline({ delay: 0.15 });
-      tl.fromTo(".hero-label", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" })
-        .fromTo(
+      tl.fromTo(
           ".hero-line",
-          { opacity: 0, y: 90, skewY: 4 },
-          { opacity: 1, y: 0, skewY: 0, duration: 1.1, stagger: 0.14, ease: "power4.out" },
-          "-=0.2"
+          { y: 90, skewY: 4 },
+          { y: 0, skewY: 0, duration: 1.1, stagger: 0.14, ease: "power4.out" }
         )
-        .fromTo(".hero-role", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power2.out" }, "-=0.65")
-        .fromTo(".hero-sub", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power2.out" }, "-=0.5");
+        .fromTo(".hero-sub", { y: 26 }, { y: 0, duration: 0.8, stagger: 0.12, ease: "power2.out" }, "-=0.5");
 
       // As you begin scrolling, the hero dissolves upward into the world —
       // the ribbon (driven globally by scroll progress) grows to take over.
@@ -56,49 +53,30 @@ export function HeroSection() {
       />
 
       <div ref={contentRef} className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center lg:px-8">
-        <p
-          className="hero-label mb-8 inline-block rounded-full border border-olive-core/30 px-5 py-2 font-body text-sm font-semibold uppercase tracking-[0.2em] opacity-0 md:text-base"
-          style={{ color: "var(--olive-dark)" }}
-        >
-          Studio · Mumbai &amp; Remote
-        </p>
-
         <h1 className="font-display leading-[0.88] tracking-[-0.04em]">
           <span
-            className="hero-line block opacity-0"
+            className="hero-line block"
             style={{ fontSize: "clamp(4rem, 12vw, 9rem)", fontWeight: 500, color: "var(--text-primary)" }}
           >
             Sylva
           </span>
           <span
-            className="hero-line block opacity-0"
+            className="hero-line block"
             style={{ fontSize: "clamp(4rem, 12vw, 9rem)", fontWeight: 500, color: "var(--olive-core)" }}
           >
             Sounds
           </span>
         </h1>
 
-        <p className="hero-sub mt-8 font-display text-xl font-medium italic opacity-0 md:text-2xl lg:text-3xl" style={{ color: "var(--text-secondary)" }}>
+        <p className="hero-sub mt-8 font-display text-xl font-medium italic md:text-2xl lg:text-3xl" style={{ color: "var(--text-secondary)" }}>
           {site.tagline}
         </p>
 
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-          {["Music Producer", "Film Composer", "Sound Designer"].map((role) => (
-            <span
-              key={role}
-              className="hero-role rounded-full border border-olive-core/25 bg-surface-01/55 px-4 py-2 text-sm font-semibold tracking-wide opacity-0 md:text-base"
-              style={{ color: "var(--olive-dark)" }}
-            >
-              {role}
-            </span>
-          ))}
-        </div>
-
-        <p className="hero-sub mx-auto mt-5 max-w-xl text-base leading-relaxed opacity-0 md:text-lg lg:text-xl" style={{ color: "var(--text-secondary)" }}>
+        <p className="hero-sub mx-auto mt-5 max-w-xl text-base leading-relaxed md:text-lg lg:text-xl" style={{ color: "var(--text-secondary)" }}>
           {site.description}
         </p>
 
-        <div className="hero-sub mt-10 flex flex-wrap justify-center gap-4 opacity-0">
+        <div className="hero-sub mt-10 flex flex-wrap justify-center gap-4">
           <a
             href="/contact"
             className="inline-flex items-center justify-center rounded-full bg-olive-core px-10 py-4 text-base font-semibold tracking-wide text-surface-01 transition-all duration-300 hover:bg-olive-dark hover:shadow-[0_4px_32px_rgba(92,107,61,0.4)]"
