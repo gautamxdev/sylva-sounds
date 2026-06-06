@@ -34,14 +34,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
-      <head>
-        <link rel="preconnect" href="https://open.spotify.com" />
-        <link rel="preconnect" href="https://i.scdn.co" />
-        <link rel="preconnect" href="https://p.scdn.co" />
-        <link rel="preconnect" href="https://img.youtube.com" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
-        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
-      </head>
       <body>
         <AudioProvider>
           <SmoothScroll>
