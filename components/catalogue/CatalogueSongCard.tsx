@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 import type { CatalogueSong } from "@/lib/data";
 
 interface CatalogueSongCardProps {
@@ -75,11 +75,19 @@ export function CatalogueSongCard({ song, isActive, isPlaying, onSelect }: Catal
         ))}
       </div>
 
-      {isActive && !isPlaying && (
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-olive-core text-surface-01">
+      <span
+        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all ${
+          isActive
+            ? "bg-olive-core text-surface-01"
+            : "opacity-0 group-hover:opacity-100 bg-olive-muted/20 text-olive-muted"
+        }`}
+      >
+        {isActive && isPlaying ? (
+          <Pause size={14} fill="currentColor" />
+        ) : (
           <Play size={14} className="ml-0.5" />
-        </span>
-      )}
+        )}
+      </span>
     </motion.button>
   );
 }

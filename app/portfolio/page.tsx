@@ -41,7 +41,7 @@ export default function PortfolioPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featuredWork.map((project) => {
               const card = (
-                <div className="group relative overflow-hidden rounded-card shadow-md transition-all duration-500 hover:shadow-xl">
+                <div className="group relative overflow-hidden rounded-card">
                   <div className="relative aspect-video overflow-hidden">
                     <Image
                       src={project.image}
@@ -60,7 +60,7 @@ export default function PortfolioPage() {
                       )}
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <p className="label-mono mb-1 text-[10px]" style={{ color: "#7a9a50" }}>{project.type}</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#f0ece3] mb-1">{project.type}</p>
                       <h3 className="font-display text-lg font-semibold text-[#f0ece3]">{project.title}</h3>
                     </div>
                   </div>

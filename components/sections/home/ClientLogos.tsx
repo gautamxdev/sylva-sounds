@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap, ScrollTrigger, registerGSAP } from "@/lib/gsap";
 import { brandLogos, creditsSummary } from "@/lib/data";
 
-const MARQUEE_SPEED = 10; // px/sec
+const MARQUEE_SPEED = 25; // px/sec
 const BASE_PADDING = 48;
 
 function LogoMark({

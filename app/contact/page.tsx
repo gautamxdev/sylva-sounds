@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap, registerGSAP } from "@/lib/gsap";
 import { site } from "@/lib/data";
+import { getSupabase } from "@/lib/supabase";
 import clsx from "clsx";
 
 const projectTypes = [
@@ -19,9 +20,18 @@ const projectTypes = [
 export default function ContactPage() {
   const sectionRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [form, setForm] = useState({ name: "", company: "", projectType: [] as string[], message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    projectType: [] as string[],
+    message: "",
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   useLayoutEffect(() => {
     registerGSAP();
@@ -50,6 +60,8 @@ export default function ContactPage() {
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "Name is required";
+    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Valid email is required";
+    if (!form.phone.trim() || !/^(\+91[\s-]?)?[6-9]\d{9}$/.test(form.phone.replace(/[\s-]/g, ""))) e.phone = "Valid 10-digit Indian phone number is required";
     if (!form.message.trim()) e.message = "Message is required";
     if (form.projectType.length === 0) e.projectType = "Select at least one project type";
     setErrors(e);
@@ -107,17 +119,70 @@ export default function ContactPage() {
         ) : (
           <form
             className="rounded-card border border-beige-deep bg-surface-01 p-6 md:p-8"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (validate()) setSubmitted(true);
+              if (!validate()) return;
+
+              setSubmitting(true);
+              setError("");
+
+              const supabase = getSupabase();
+              const { error: supabaseError } = await supabase
+                .from("contact_submissions")
+                .insert({
+                  name: form.name.trim(),
+                  email: form.email.trim(),
+                  phone: form.phone.trim(),
+                  company: form.company.trim(),
+                  project_type: form.projectType,
+                  message: form.message.trim(),
+                });
+
+              setSubmitting(false);
+
+              if (supabaseError) {
+                console.error("Supabase insert error:", supabaseError.message, supabaseError.details, supabaseError.code);
+                setError("Something went wrong. Please try again or email us directly.");
+                return;
+              }
+
+              setSubmitted(true);
             }}
           >
+            {error && (
+              <div className="mb-5 rounded-card border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
             <div className="grid gap-5 md:grid-cols-2">
               <FloatingField id="name" label="Name *" value={form.name} error={errors.name}>
                 <input
                   id="name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="peer w-full rounded-card border border-beige-deep bg-bg-primary px-4 pb-3 pt-6 outline-none transition-colors duration-300 hover:border-olive-muted/70 focus:border-olive-core"
+                />
+              </FloatingField>
+
+              <FloatingField id="email" label="Email *" value={form.email} error={errors.email}>
+                <input
+                  id="email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="peer w-full rounded-card border border-beige-deep bg-bg-primary px-4 pb-3 pt-6 outline-none transition-colors duration-300 hover:border-olive-muted/70 focus:border-olive-core"
+                />
+              </FloatingField>
+            </div>
+
+            <div className="mt-5 grid gap-5 md:grid-cols-2">
+              <FloatingField id="phone" label="Phone *" value={form.phone} error={errors.phone}>
+                <input
+                  id="phone"
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="peer w-full rounded-card border border-beige-deep bg-bg-primary px-4 pb-3 pt-6 outline-none transition-colors duration-300 hover:border-olive-muted/70 focus:border-olive-core"
                 />
               </FloatingField>
@@ -174,11 +239,12 @@ export default function ContactPage() {
               <button
                 ref={buttonRef}
                 type="submit"
+                disabled={submitting}
                 onPointerMove={moveButton}
                 onPointerLeave={resetButton}
-                className="inline-flex will-change-transform items-center justify-center rounded-full bg-olive-core px-9 py-4 text-sm font-semibold tracking-wide text-surface-01 transition-colors duration-300 hover:bg-olive-dark active:scale-[0.99]"
+                className="inline-flex will-change-transform items-center justify-center rounded-full bg-olive-core px-9 py-4 text-sm font-semibold tracking-wide text-surface-01 transition-colors duration-300 hover:bg-olive-dark active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send Message →
+                {submitting ? "Sending..." : "Send Message →"}
               </button>
             </div>
           </form>

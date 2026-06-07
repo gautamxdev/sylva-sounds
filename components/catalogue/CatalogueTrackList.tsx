@@ -2,13 +2,14 @@
 
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 import type { CatalogueSong } from "@/lib/data";
 
 interface CatalogueTrackListProps {
   songs: CatalogueSong[];
   activeId: string;
   onSelect: (id: string) => void;
+  isPlaying: boolean;
 }
 
 function MicroWaveform({ active }: { active: boolean }) {
@@ -48,7 +49,7 @@ function MicroWaveform({ active }: { active: boolean }) {
   );
 }
 
-export function CatalogueTrackList({ songs, activeId, onSelect }: CatalogueTrackListProps) {
+export function CatalogueTrackList({ songs, activeId, onSelect, isPlaying }: CatalogueTrackListProps) {
   return (
     <ul className="showreel-list flex flex-col">
       {songs.map((song, i) => {
@@ -66,15 +67,13 @@ export function CatalogueTrackList({ songs, activeId, onSelect }: CatalogueTrack
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="flex-1">
-                <motion.span
-                  animate={{ x: isActive ? 8 : 0 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                <span
                   className={`block font-display text-2xl font-semibold transition-colors md:text-3xl ${
                     isActive ? "text-on-dark-accent" : "text-on-dark group-hover:text-on-dark-accent"
                   }`}
                 >
                   {song.title}
-                </motion.span>
+                </span>
                 <span className="mt-1 block text-sm text-on-dark-dim md:text-base">{song.credit}</span>
               </span>
               <MicroWaveform active={isActive} />
@@ -85,7 +84,11 @@ export function CatalogueTrackList({ songs, activeId, onSelect }: CatalogueTrack
                     : "border-[rgba(240,236,227,0.25)] text-on-dark-dim group-hover:border-on-dark"
                 }`}
               >
-                <Play size={15} className="ml-0.5" />
+                {isActive && isPlaying ? (
+                  <Pause size={15} fill="currentColor" />
+                ) : (
+                  <Play size={15} className="ml-0.5" />
+                )}
               </span>
             </button>
           </li>

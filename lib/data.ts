@@ -57,6 +57,15 @@ export const brandClients = brandLogos.map((b) => b.name);
 
 export const featuredWork: FeaturedWork[] = [
   {
+    id: "8",
+    slug: "ad-audio-post",
+    title: "Advertisement Audio Post Production",
+    type: "Advertisement Audio Post Production",
+    videoUrl: "https://www.youtube.com/watch?v=sBVtDjt9fe0",
+    videoId: "sBVtDjt9fe0",
+    image: "https://img.youtube.com/vi/sBVtDjt9fe0/maxresdefault.jpg",
+  },
+  {
     id: "1",
     slug: "gargi",
     title: "Gargi",
@@ -73,6 +82,15 @@ export const featuredWork: FeaturedWork[] = [
     videoUrl: "https://youtu.be/c01FMC-WxXo",
     videoId: "c01FMC-WxXo",
     image: "https://img.youtube.com/vi/c01FMC-WxXo/maxresdefault.jpg",
+  },
+  {
+    id: "5",
+    slug: "dithee",
+    title: "Dithee",
+    type: "Sound Design",
+    videoUrl: "https://youtu.be/B7Q5RB7P5gM",
+    videoId: "B7Q5RB7P5gM",
+    image: "https://img.youtube.com/vi/B7Q5RB7P5gM/maxresdefault.jpg",
   },
   {
     id: "2",
@@ -93,13 +111,6 @@ export const featuredWork: FeaturedWork[] = [
     image: "https://img.youtube.com/vi/yVndzR2PsKQ/maxresdefault.jpg",
   },
   {
-    id: "5",
-    slug: "the-secret",
-    title: "The Secret",
-    type: "Final Mix & Audio Finishing",
-    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1200&h=800&fit=crop",
-  },
-  {
     id: "6",
     slug: "supertails",
     title: "Supertails",
@@ -116,15 +127,6 @@ export const featuredWork: FeaturedWork[] = [
     videoUrl: "https://www.youtube.com/watch?v=6swuSVRr-CA",
     videoId: "6swuSVRr-CA",
     image: "https://img.youtube.com/vi/6swuSVRr-CA/maxresdefault.jpg",
-  },
-  {
-    id: "8",
-    slug: "ad-audio-post",
-    title: "Advertisement Audio Post Production",
-    type: "Advertisement Audio Post Production",
-    videoUrl: "https://www.youtube.com/watch?v=sBVtDjt9fe0",
-    videoId: "sBVtDjt9fe0",
-    image: "https://img.youtube.com/vi/sBVtDjt9fe0/maxresdefault.jpg",
   },
 ];
 

@@ -9,7 +9,6 @@ const footerLinks = {
   ],
   Connect: [
     { href: "/contact", label: "Contact" },
-    { href: site.creditsDriveUrl, label: "Credits", external: true },
     { href: `mailto:${site.email}`, label: site.email, external: true },
   ],
 };

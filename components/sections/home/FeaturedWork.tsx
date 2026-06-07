@@ -110,11 +110,11 @@ export function FeaturedWork() {
 
 function WorkCard({ project }: { project: (typeof featuredWork)[0] }) {
   const shellClass =
-    "group block w-full transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl";
+    "group block w-full transition-transform duration-300 ease-out hover:-translate-y-1";
 
   const content = (
     <>
-      <div className="relative overflow-hidden rounded-card shadow-lg">
+      <div className="relative overflow-hidden rounded-card">
         <div className="relative aspect-video w-full overflow-hidden bg-[var(--dark-bg)]">
           <Image
             src={project.image}

@@ -63,7 +63,7 @@ export function OurCatalogue() {
         </div>
 
         <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-          <CatalogueTrackList songs={catalogueSongs} activeId={active.id} onSelect={selectTrack} />
+          <CatalogueTrackList songs={catalogueSongs} activeId={active.id} onSelect={selectTrack} isPlaying={isPlaying} />
           <CatalogueNowPlaying
             song={active}
             isPlaying={isPlaying}
