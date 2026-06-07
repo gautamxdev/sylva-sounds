@@ -60,7 +60,7 @@ export const featuredWork: FeaturedWork[] = [
     id: "8",
     slug: "ad-audio-post",
     title: "Book My Show",
-    type: "Book My Show",
+    type: "Advertisement Audio Post",
     videoUrl: "https://www.youtube.com/watch?v=sBVtDjt9fe0",
     videoId: "sBVtDjt9fe0",
     image: "https://img.youtube.com/vi/sBVtDjt9fe0/maxresdefault.jpg",
