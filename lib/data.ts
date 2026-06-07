@@ -59,8 +59,8 @@ export const featuredWork: FeaturedWork[] = [
   {
     id: "8",
     slug: "ad-audio-post",
-    title: "Advertisement Audio Post Production",
-    type: "Advertisement Audio Post Production",
+    title: "Book My Show",
+    type: "Book My Show",
     videoUrl: "https://www.youtube.com/watch?v=sBVtDjt9fe0",
     videoId: "sBVtDjt9fe0",
     image: "https://img.youtube.com/vi/sBVtDjt9fe0/maxresdefault.jpg",
@@ -122,7 +122,7 @@ export const featuredWork: FeaturedWork[] = [
   {
     id: "7",
     slug: "ad-content-localisation",
-    title: "Advertisement Content Localisation",
+    title: "Tata Gluco",
     type: "Advertisement Content Localisation",
     videoUrl: "https://www.youtube.com/watch?v=6swuSVRr-CA",
     videoId: "6swuSVRr-CA",
@@ -155,13 +155,13 @@ export interface CatalogueSong {
 
 export const catalogueSongs: CatalogueSong[] = [
   {
-    id: "naina-laage",
-    title: "Naina Laage",
+    id: "aadatein-hai",
+    title: "Aadatein Hai",
     credit: "Composed, Produced & Engineered",
-    spotifyUrl: "https://open.spotify.com/track/1cJSZr8PPcqDMqys9ldwHk",
-    spotifyTrackId: "1cJSZr8PPcqDMqys9ldwHk",
-    previewStart: 185,
-    previewUrl: "https://p.scdn.co/mp3-preview/5b9192743dc6231c6338c5da8bb39002a474057e",
+    spotifyUrl: "https://open.spotify.com/track/2dc7fqKx6ljfiqAMgi44kU",
+    spotifyTrackId: "2dc7fqKx6ljfiqAMgi44kU",
+    previewStart: 80,
+    previewUrl: "https://p.scdn.co/mp3-preview/d3b9cc0d615d200c4f2fd19ef30d94216bcdbaac",
   },
   {
     id: "homestudio",
@@ -209,13 +209,13 @@ export const catalogueSongs: CatalogueSong[] = [
     previewUrl: "https://p.scdn.co/mp3-preview/c8d7847f2bf4a2fea9387069fe8a92661cc320c7",
   },
   {
-    id: "aadatein-hai",
-    title: "Aadatein Hai",
+    id: "naina-laage",
+    title: "Naina Laage",
     credit: "Composed, Produced & Engineered",
-    spotifyUrl: "https://open.spotify.com/track/2dc7fqKx6ljfiqAMgi44kU",
-    spotifyTrackId: "2dc7fqKx6ljfiqAMgi44kU",
-    previewStart: 80,
-    previewUrl: "https://p.scdn.co/mp3-preview/d3b9cc0d615d200c4f2fd19ef30d94216bcdbaac",
+    spotifyUrl: "https://open.spotify.com/track/1cJSZr8PPcqDMqys9ldwHk",
+    spotifyTrackId: "1cJSZr8PPcqDMqys9ldwHk",
+    previewStart: 185,
+    previewUrl: "https://p.scdn.co/mp3-preview/5b9192743dc6231c6338c5da8bb39002a474057e",
   },
 ];
 
