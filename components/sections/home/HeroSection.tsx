@@ -58,13 +58,13 @@ export function HeroSection() {
             className="hero-line block"
             style={{ fontSize: "clamp(4rem, 12vw, 9rem)", fontWeight: 500, color: "var(--text-primary)" }}
           >
-            Sylva
+            SYLVA
           </span>
           <span
             className="hero-line block"
             style={{ fontSize: "clamp(4rem, 12vw, 9rem)", fontWeight: 500, color: "var(--olive-core)" }}
           >
-            Sounds
+            SOUNDS
           </span>
         </h1>
 

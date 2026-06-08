@@ -1,4 +1,4 @@
-# Sylva Sounds
+# SYLVA SOUNDS
 
 Premium audio production website built with Next.js 14, Three.js, GSAP, and Sanity CMS.
 

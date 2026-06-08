@@ -60,7 +60,7 @@ export function AboutContent() {
     <div ref={rootRef}>
       <PageHeader
         label="About"
-        title="Sylva Sounds"
+        title="SYLVA SOUNDS"
         subtitle="A music and audio post-production studio crafting sound for Indian cinema, OTT, advertising, and digital media."
       />
 

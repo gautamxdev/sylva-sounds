@@ -29,7 +29,7 @@ export interface ServiceCategory {
 }
 
 export const site = {
-  name: "Sylva Sounds",
+  name: "SYLVA SOUNDS",
   tagline: "From Silence to Experience",
   description: "Music, Sound & Audio Production for Modern Media",
   email: "hello@sylvasounds.com",
@@ -411,7 +411,7 @@ export const processSteps = [
 ];
 
 export const teamMembers = [
-  { id: "1", name: "Sylva Sounds", role: "Audio Production Studio", bio: "Music, sound design, and post-production for modern media." },
+  { id: "1", name: "SYLVA SOUNDS", role: "Audio Production Studio", bio: "Music, sound design, and post-production for modern media." },
 ];
 
 export const faqs = [
